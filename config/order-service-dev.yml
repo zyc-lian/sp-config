@@ -1,25 +1,26 @@
 spring:
   application:
     name: order-service
-  cloud:
-    config:
-      override-none: true
-      
   rabbitmq:
     host: 192.168.64.140
     port: 5672
     username: admin
     password: admin
+  cloud:
+    config:
+      override-none: true
     
-server:
+server: 
   port: 8201
-  
-  
+
 eureka:
   client:
-    service-url: 
+     service-url: 
       defaultZone: http://eureka1:2001/eureka, http://eureka2:2002/eureka
-
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:${spring.application.name}:${server.port}
+    
 feign:
   hystrix:
     enabled: true
@@ -29,4 +30,3 @@ management:
     web:
       exposure:
         include: hystrix.stream
-        
